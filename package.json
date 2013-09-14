@@ -27,9 +27,11 @@
   },
   "devDependencies": {
     "lab": "~1.1.0",
-    "hapi": "~1.10.0"
+    "hapi": "~1.10.0",
+    "chai": "~1.7.2"
   },
   "dependencies": {
-    "hoek": "~1.0.3"
+    "hoek": "~1.0.3",
+    "datify": "0.0.3"
   }
 }

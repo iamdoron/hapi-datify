@@ -3,6 +3,7 @@ hapi-datify
 
 your datify-friendly hapi plugin.
 
+[![Build Status](https://travis-ci.org/iamdoron/hapi-datify.png?branch=master)](https://travis-ci.org/iamdoron/hapi-datify)
 ## how
 
 `> npm install hapi-datify`

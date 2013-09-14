@@ -31,7 +31,6 @@ describe('hapi-datify', function () {
         server.route({ method: 'POST', path: '/documents', handler: function(request){
     		request.payload.should.eql({this: {is: {date: new Date('2011-09-13T17:09:30.909Z'), other: "dds"}}});
     		request.reply("ok");
-    		done();
         } });
 
         server.pack.require('../', function (err) {
@@ -39,6 +38,25 @@ describe('hapi-datify', function () {
         		method: "POST",
         		url: "/documents",
         		payload: '{"this": {"is": {"date": "2011-09-13T17:09:30.909Z", "other": "dds"}}}'
+        	}, function(res){
+        		res.result.should.eql("ok");
+        		done();
+        	});
+        });
+    }),
+
+    it('datifies an incoming query', function (done) {
+
+        var server = new Hapi.Server();
+        server.route({ method: 'GET', path: '/documents', handler: function(request){
+    		request.query.should.eql({from: new Date('2011-09-13T17:09:30.909Z'), other: "dds"});
+    		request.reply("ok");
+        } });
+
+        server.pack.require('../', function (err) {
+        	server.inject({
+        		method: "GET",
+        		url: "/documents?from=2011-09-13T17:09:30.909Z&other=dds",
         	}, function(res){
         		res.result.should.eql("ok");
         		done();

@@ -25,7 +25,7 @@ describe('hapi-datify', function () {
         });
     }),
 
-    it('datifies an incoming payload', function (done) {
+    it('should datify an incoming payload', function (done) {
 
         var server = new Hapi.Server();
         server.route({ method: 'POST', path: '/documents', handler: function(request){
@@ -45,7 +45,7 @@ describe('hapi-datify', function () {
         });
     }),
 
-    it('datifies an incoming query', function (done) {
+    it('should datify an incoming query', function (done) {
 
         var server = new Hapi.Server();
         server.route({ method: 'GET', path: '/documents', handler: function(request){
@@ -57,6 +57,84 @@ describe('hapi-datify', function () {
         	server.inject({
         		method: "GET",
         		url: "/documents?from=2011-09-13T17:09:30.909Z&other=dds",
+        	}, function(res){
+        		res.result.should.eql("ok");
+        		done();
+        	});
+        });
+    }),
+
+    it('should not datify an incoming query that its route is filtered by the datified routes regex', function (done) {
+
+        var server = new Hapi.Server();
+        server.route({ method: 'GET', path: '/documents', handler: function(request){
+    		request.query.should.eql({from: '2011-09-13T17:09:30.909Z', other: "dds"});
+    		request.reply("ok");
+        } });
+
+        server.pack.require('../', {routesToDatifyRegEx: "^nothing$"}, function (err) {
+        	server.inject({
+        		method: "GET",
+        		url: "/documents?from=2011-09-13T17:09:30.909Z&other=dds",
+        	}, function(res){
+        		res.result.should.eql("ok");
+        		done();
+        	});
+        });
+    }),
+
+    it('should not datify an incoming payload that its route is filtered by the datified routes regex', function (done) {
+
+        var server = new Hapi.Server();
+        server.route({ method: 'POST', path: '/documents', handler: function(request){
+    		request.payload.should.eql({this: {is: {date: '2011-09-13T17:09:30.909Z', other: "dds"}}});
+    		request.reply("ok");
+        } });
+
+        server.pack.require('../', {routesToDatifyRegEx: "^nothing$"}, function (err) {
+        	server.inject({
+        		method: "POST",
+        		url: "/documents",
+        		payload: '{"this": {"is": {"date": "2011-09-13T17:09:30.909Z", "other": "dds"}}}'
+        	}, function(res){
+        		res.result.should.eql("ok");
+        		done();
+        	});
+        });
+    }),
+
+    it('should datify an incoming query for a specific route regex', function (done) {
+
+        var server = new Hapi.Server();
+        server.route({ method: 'GET', path: '/nothing', handler: function(request){
+    		request.query.should.eql({from: new Date('2011-09-13T17:09:30.909Z'), other: "dds"});
+    		request.reply("ok");
+        } });
+
+        server.pack.require('../', {routesToDatifyRegEx: "^/nothing$"}, function (err) {
+        	server.inject({
+        		method: "GET",
+        		url: "/nothing?from=2011-09-13T17:09:30.909Z&other=dds",
+        	}, function(res){
+        		res.result.should.eql("ok");
+        		done();
+        	});
+        });
+    }),
+
+    it('should datify an incoming payload for a specific route regex', function (done) {
+
+        var server = new Hapi.Server();
+        server.route({ method: 'POST', path: '/nothing', handler: function(request){
+    		request.payload.should.eql({this: {is: {date: new Date('2011-09-13T17:09:30.909Z'), other: "dds"}}});
+    		request.reply("ok");
+        } });
+
+        server.pack.require('../', {routesToDatifyRegEx: "^/nothing$"}, function (err) {
+        	server.inject({
+        		method: "POST",
+        		url: "/nothing",
+        		payload: '{"this": {"is": {"date": "2011-09-13T17:09:30.909Z", "other": "dds"}}}'
         	}, function(res){
         		res.result.should.eql("ok");
         		done();

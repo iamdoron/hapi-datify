@@ -58,3 +58,7 @@ pack.route({ method: 'GET', path: '/books', handler: function(request){
 > npm install
 > make test-cov
 ```
+
+
+[![NPM](https://nodei.co/npm/hapi-datify.png?downloads=true&stars=true)](https://nodei.co/npm/hapi-datify/)
+

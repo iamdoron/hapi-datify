@@ -1,0 +1,35 @@
+{
+  "name": "hapi-datify",
+  "version": "0.0.0",
+  "description": "your datify-friendly hapi plugin.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test-cov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamdoron/hapi-datify.git"
+  },
+  "keywords": [
+    "datify",
+    "date",
+    "hapi"
+  ],
+  "author": "surui",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "fc1afed4d987dff20e4a5bb412271ea4c8f5e302",
+  "bugs": {
+    "url": "https://github.com/iamdoron/hapi-datify/issues"
+  },
+  "devDependencies": {
+    "lab": "~1.1.0",
+    "hapi": "~1.10.0"
+  },
+  "dependencies": {
+    "hoek": "~1.0.3"
+  }
+}

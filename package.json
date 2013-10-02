@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "hoek": "~1.0.3",
-    "datify": "0.0.3"
+    "datify": "0.0.5"
   }
 }
